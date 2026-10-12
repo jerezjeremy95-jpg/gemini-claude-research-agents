@@ -25,8 +25,8 @@ Exporta tus claves de API (consulta `.env.example`):
 export GEMINI_API_KEY=...       # https://aistudio.google.com/apikey
 export ANTHROPIC_API_KEY=...    # https://console.anthropic.com/
 # Opcionales:
-export GEMINI_MODEL=gemini-2.5-pro
-export CLAUDE_MODEL=claude-opus-5-5
+export GEMINI_MODEL=gemini-3.1-pro-preview
+export CLAUDE_MODEL=claude-sonnet-5-5
 ```
 
 ## Uso
@@ -45,8 +45,8 @@ También puedes usarlo desde Python:
 from research_agents import run_research
 from research_agents.agents import GeminiExplorer, ClaudeCritic
 
-result = run_research("tu pregunta", GeminiExplorer(key, "gemini-2.5-pro"),
-                      ClaudeCritic(key, "claude-opus-5-5"), max_rounds=3)
+result = run_research("tu pregunta", GeminiExplorer(key, "gemini-3.1-pro-preview"),
+                      ClaudeCritic(key, "claude-sonnet-5-5"), max_rounds=3)
 print(result.to_markdown())
 ```
 

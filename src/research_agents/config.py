@@ -1,8 +1,8 @@
 import os
 from dataclasses import dataclass
 
-DEFAULT_GEMINI_MODEL = "gemini-2.5-pro"
-DEFAULT_CLAUDE_MODEL = "claude-opus-5-5"
+DEFAULT_GEMINI_MODEL = "gemini-3.1-pro-preview"
+DEFAULT_CLAUDE_MODEL = "claude-sonnet-5-5"
 
 
 @dataclass(frozen=True)
