@@ -1,7 +1,7 @@
 import os
 from dataclasses import dataclass
 
-DEFAULT_GEMINI_MODEL = "gemini-3.1-pro-preview"
+DEFAULT_GEMINI_MODEL = "gemini-3.5-flash"
 DEFAULT_CLAUDE_MODEL = "claude-sonnet-5-5"
 
 
@@ -11,6 +11,7 @@ class Settings:
     anthropic_api_key: str
     gemini_model: str = DEFAULT_GEMINI_MODEL
     claude_model: str = DEFAULT_CLAUDE_MODEL
+    gemini_search: bool = True
 
     @classmethod
     def from_env(cls) -> "Settings":
@@ -22,4 +23,5 @@ class Settings:
             anthropic_api_key=os.environ["ANTHROPIC_API_KEY"],
             gemini_model=os.environ.get("GEMINI_MODEL", DEFAULT_GEMINI_MODEL),
             claude_model=os.environ.get("CLAUDE_MODEL", DEFAULT_CLAUDE_MODEL),
+            gemini_search=os.environ.get("GEMINI_SEARCH", "true").lower() not in ("0", "false", "no"),
         )

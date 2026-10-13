@@ -15,6 +15,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("question", help="Pregunta o tema a investigar")
     parser.add_argument("-r", "--rounds", type=int, default=3, help="Máximo de rondas (por defecto 3)")
     parser.add_argument("-o", "--output", type=Path, help="Guardar el informe en este archivo .md")
+    parser.add_argument("--no-search", action="store_true", help="No usar Google Search en el Explorador")
     args = parser.parse_args(argv)
 
     try:
@@ -23,7 +24,9 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Error: {e}", file=sys.stderr)
         return 2
 
-    explorer = GeminiExplorer(settings.gemini_api_key, settings.gemini_model)
+    explorer = GeminiExplorer(
+        settings.gemini_api_key, settings.gemini_model, search=settings.gemini_search and not args.no_search
+    )
     critic = ClaudeCritic(settings.anthropic_api_key, settings.claude_model)
 
     def report(r: Round) -> None:

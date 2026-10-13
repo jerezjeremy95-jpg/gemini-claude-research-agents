@@ -4,7 +4,7 @@ Dual-agent research system: Gemini Pro as Explorer + Claude Pro as Critic for co
 
 ## Cómo funciona
 
-1. **Explorador (Gemini):** investiga la pregunta con Google Search y escribe un borrador en Markdown con fuentes citadas.
+1. **Explorador (Gemini):** investiga la pregunta (con Google Search si tu plan lo permite) y escribe un borrador en Markdown con fuentes citadas.
 2. **Crítico (Claude):** revisa el borrador (exactitud, afirmaciones sin respaldo, huecos, fuentes) y responde con una puntuación de 1 a 10, aprobado o no, y una lista de correcciones.
 3. Si no lo aprueba, el Explorador revisa el borrador con esa crítica. El ciclo se repite hasta que el Crítico aprueba o se llega al máximo de rondas.
 4. El resultado es un informe en Markdown con el borrador final y el historial de revisiones.
@@ -25,8 +25,9 @@ Exporta tus claves de API (consulta `.env.example`):
 export GEMINI_API_KEY=...       # https://aistudio.google.com/apikey
 export ANTHROPIC_API_KEY=...    # https://console.anthropic.com/
 # Opcionales:
-export GEMINI_MODEL=gemini-3.1-pro-preview
+export GEMINI_MODEL=gemini-3.5-flash
 export CLAUDE_MODEL=claude-sonnet-5-5
+export GEMINI_SEARCH=false        # plan gratuito: sin cuota de Google Search
 ```
 
 ## Uso
@@ -38,6 +39,9 @@ research-agents "¿Cuál es el impacto de la IA generativa en el marketing digit
 
 - `--rounds / -r`: máximo de rondas Explorador → Crítico (por defecto 3).
 - `--output / -o`: guarda el informe; sin esta opción se imprime en pantalla.
+- `--no-search`: el Explorador no usa Google Search (necesario en el plan gratuito de Gemini).
+
+El plan gratuito de Gemini no incluye los modelos Pro ni Google Search. Para usar `gemini-3.1-pro-preview` con búsqueda, activa la facturación en AI Studio y define `GEMINI_MODEL=gemini-3.1-pro-preview`.
 
 También puedes usarlo desde Python:
 
@@ -45,7 +49,7 @@ También puedes usarlo desde Python:
 from research_agents import run_research
 from research_agents.agents import GeminiExplorer, ClaudeCritic
 
-result = run_research("tu pregunta", GeminiExplorer(key, "gemini-3.1-pro-preview"),
+result = run_research("tu pregunta", GeminiExplorer(key, "gemini-3.5-flash"),
                       ClaudeCritic(key, "claude-sonnet-5-5"), max_rounds=3)
 print(result.to_markdown())
 ```
